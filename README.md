@@ -48,17 +48,6 @@ news_p = "Preparation of NASA's next spacecraft to Mars, InSight, has ramped up 
 featured_image_url = 'https://www.jpl.nasa.gov/spaceimages/images/largesize/PIA16225_hires.jpg'
 ```
 
-### Mars Weather
-
-* Visit the Mars Weather twitter account [here](https://twitter.com/marswxreport?lang=en) and scrape the latest Mars weather tweet from the page. Save the tweet text for the weather report as a variable called `mars_weather`.
-* **Note: Be sure you are not signed in to twitter, or scraping may become more difficult.**
-* **Note: Twitter frequently changes how information is presented on their website. If you are having difficulty getting the correct html tag data, consider researching Regular Expression Patterns and how they can be used in combination with the .find() method.**
-
-
-```python
-# Example:
-mars_weather = 'Sol 1801 (Aug 30, 2017), Sunny, high -21C/-5F, low -80C/-112F, pressure at 8.82 hPa, daylight 06:09-17:55'
-```
 
 ### Mars Facts
 
