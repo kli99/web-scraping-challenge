@@ -27,40 +27,56 @@
                         <div class="media-body">
                             <h2 style="font-family: Verdana, Geneva, Tahoma, sans-serif; font-size: large; color:darkgoldenrod;">Lastest Mars News</h2>
                             <h4 style="font-family: Verdana, Geneva, Tahoma, sans-serif; font-size:medium; color:#6E6E6E;">{{mars.news_title}}</h4>
-                            <p style="font-family: Verdana, Geneva, Tahoma, sans-serif; font-size:medium; color:#6E6E6E;">{{mars.news_p}}</p>
+                            <p style="font-family: Verdana, Geneva, Tahoma, sans-serif; font-size:small; color:#6E6E6E;">{{mars.news_paragraph}}</p>
                         </div>
                     </div>
                 </div>
             </div>
 
 
+
+            <!-- Mars Images -->
             <div class="container">
-                <div class="col-md-8">
-                    <div class="row" id="mars-news">
-                        <div class="media">
-                            <div class="media-body">
-                                <h2 style="font-family: Verdana, Geneva, Tahoma, sans-serif; font-size: large; color:darkgoldenrod;">Featured Mars Image</h2>
-                                <img src="{{mars.featured_img_url | default('static/images/error.png', true) }}" class="img-responsive" style="max-width:100%; max-height: auto;" alt="Mars Featured Image" />
-                            </div>
+                <div class="row" id="mars-images">
+                    <div class="col-md-7 col-md-6">
+                        <h2 style="font-family: Verdana, Geneva, Tahoma, sans-serif; font-size: large; color:darkgoldenrod;">Featured Mars Image</h2>
+                        <img src="{{mars.mars_image}}" class="img-responsive" style="max-width:100%; height:540px;" alt="Mars Featured Image" />
+                    </div>
+                    <!-- <div class="col-sm-1">
+                    </div> -->
+                    <!-- Mars Facts -->
+                    <br>
+                    <div class="row" id="mars-facts">
+                        <div class="col-md-2 col-md-12">
+                            <h2 style="font-family: Verdana, Geneva, Tahoma, sans-serif; font-size: large; color:darkgoldenrod;">Mars Facts</h2>
+                            {{mars.mars_facts | safe }}
                         </div>
                     </div>
                 </div>
+
+                <!-- Mars Hemispheres -->
+                <h2 style="padding-top: 50px; margin-top: 100px; text-align: center;font-family: Verdana, Geneva, Tahoma, sans-serif; font-size: large; color:darkgoldenrod;">Mars Hemispheres</h2>
+                <div class="card-deck">
+                    <hr>
+                    <div class="col-md-12">
+                        <div class="row" id="mars-hemispheres">
+                            {% for hemisphere in mars.mars_hem %}
+                            <div class="col-md-6">
+                                <div class="card text-white bg-danger" style="margin: 30px;">
+                                    <!-- If Images are False/None/Non-Existent, Then Default to Error Message -->
+                                    <img class="card-img-top" src="{{hemisphere.img_url | default('static/images/error.png', true)}}" alt="..." />
+                                    <div class="card-body">
+                                        <p class="card-text">{{hemisphere.title}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
             </div>
-
-
-            <div class="col-md-2">
-                <table border=1>
-
-                    <tr>
-                        <th> {{ description }} </th>
-                        <td> {{ value }} </td>
-                    </tr>
-
-                </table>
-            </div>
-
         </div>
-    </div>
     </div>
 
 

@@ -11,23 +11,27 @@ def init_browser():
 
 ### NASA Latest Mars News Scaper
 def mars_news(browser):
-    #browser = init_browser()
 
     # Scrape Mars News site
-    url = "https://mars.nasa.gov/news/?page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&category=19%2C165%2C184%2C204&blank_scope=Latest"
+    url = "https://mars.nasa.gov/news/"
     browser.visit(url)
+    
+    # Delay for loading page
+    browser.is_element_present_by_css("ul.item_list li.slide", wait_time=1)
 
     # Scrape page into Soup
     html = browser.html
     soup = bs(html, "html.parser")
 
-    # Sracpe the latest news title and paragraph 
-    #print(len(soup.find_all("div", class_="content_title")))
-    news_title = soup.find_all("div", class_="content_title")[1].text
-    news_p= soup.find_all("div", class_="article_teaser_body")[0].text
+    try:
+        slide_elem = soup.select_one("ul.item_list li.slide")
+            # Use the parent element to find the first 'a' tag and save it as 'news_title'
+        news_title = slide_elem.find("div", class_="content_title").get_text()
+            # Use the parent element to find the paragraph text
+        news_p = slide_elem.find("div", class_="article_teaser_body").get_text()
 
-    # Close the browser after scraping
-    browser.quit()
+    except AttributeError: 
+        return None, None
 
     # Return results
     return news_title,news_p
@@ -59,7 +63,7 @@ def mars_images(browser):
     featured_img_url = f"https://www.jpl.nasa.gov{img}"
 
     # Close the browser after scraping
-    browser.quit()
+    
 
     return featured_img_url
 
@@ -106,7 +110,6 @@ def mars_hem(browser):
         # navigate backwards
         browser.back()
     
-    browser.quit()
 
     return hemisphere_image_urls
 
@@ -115,6 +118,7 @@ def scrape():
     browser = init_browser()
 
     news_title, news_p = mars_news(browser)
+    # news_p = mars_news(browser)
     featured_img_url= mars_images(browser)
     facts = mars_facts()
     hemisphere_image_urls = mars_hem(browser)
