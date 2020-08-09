@@ -10,8 +10,8 @@ def init_browser():
     return Browser("chrome", **executable_path, headless=False)
 
 ### NASA Latest Mars News Scaper
-def mars_news():
-    browser = init_browser()
+def mars_news(browser):
+    #browser = init_browser()
 
     # Scrape Mars News site
     url = "https://mars.nasa.gov/news/?page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&category=19%2C165%2C184%2C204&blank_scope=Latest"
@@ -22,8 +22,9 @@ def mars_news():
     soup = bs(html, "html.parser")
 
     # Sracpe the latest news title and paragraph 
+    #print(len(soup.find_all("div", class_="content_title")))
     news_title = soup.find_all("div", class_="content_title")[1].text
-    news_p= soup.find_all("div", class_="article_teaser_body")[1].text
+    news_p= soup.find_all("div", class_="article_teaser_body")[0].text
 
     # Close the browser after scraping
     browser.quit()
@@ -33,8 +34,8 @@ def mars_news():
 
 
 ### NASA JPL Site Scraper
-def mars_images():
-    browser = init_browser()
+def mars_images(browser):
+    #browser = init_browser()
 
     # Scrape Mars News site
     url = "https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars"
@@ -50,7 +51,7 @@ def mars_images():
 
     # Parse Results HTML with BeautifulSoup
     html = browser.html
-    imagesoup = BeautifulSoup(html, "html.parser")
+    imagesoup = bs(html, "html.parser")
 
     img_url = imagesoup.select_one("figure.lede a img")
     img= img_url.get("src")
@@ -70,16 +71,13 @@ def mars_facts():
     df.columns=["Description", "Value"]
     df.set_index("Description", inplace=True)
 
-    # Close the browser after scraping
-    browser.quit()
-
     return df.to_html(classes="table table-bordered")
 
 
 # Scrape USGS Astrogeology Site
-def mars_hem():
+def mars_hem(browser):
 
-    browser = init_browser()
+    #browser = init_browser()
     
     # Visit the USGS Astrogeology site
     url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
@@ -118,8 +116,8 @@ def scrape():
 
     news_title, news_p = mars_news(browser)
     featured_img_url= mars_images(browser)
-    facts = mars_facts(browser)
-    hemisphere_image_urls = mars_hem (browser)
+    facts = mars_facts()
+    hemisphere_image_urls = mars_hem(browser)
     timestamp = dt.datetime.now()
 
     mars_data= {

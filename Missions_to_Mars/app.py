@@ -28,10 +28,12 @@ def scrape():
 
     # Update the Mongo database using update and upsert=True
     mongo.db.data.update({}, mars_data, upsert=True)
+    
+    print(mars_data)
 
     # Redirect back to home page
-    return redirect("/", code=302)
+    #return redirect("/")
+    return "Scraping successing!"
 
-    print(mars_data)
 if __name__ == "__main__":
     app.run(debug=True)
